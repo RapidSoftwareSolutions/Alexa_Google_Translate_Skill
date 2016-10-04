@@ -1,18 +1,7 @@
 'use strict';
 const RapidAPI = require('rapidapi-connect');
 const rapid = new RapidAPI('demo', '12345678');
-const GoogleAPIKey = 'AIzaSyCDogEcpeA84USVXMS471PDt3zsG-caYDM';
 
-const langCodes = {
-    "German" : "de",
-    "Dutch" : "nl",
-    "English" : "en",
-    "French" : "fr",
-    "Italian" : "it",
-    "Polish" : "pl",
-    "Russian" : "ru",
-    "Spanish" : "es"
-};
 /**
  * This is the code behind the translate skill
  */
@@ -80,6 +69,18 @@ function handleSessionEndRequest(callback) {
  */
  
 function translate(intent, session, callback) {
+    const GoogleAPIKey = 'AIzaSyCDogEcpeA84USVXMS471PDt3zsG-caYDM';
+
+    const langCodes = {
+        "German" : "de",
+        "Dutch" : "nl",
+        "English" : "en",
+        "French" : "fr",
+        "Italian" : "it",
+        "Polish" : "pl",
+        "Russian" : "ru",
+        "Spanish" : "es"
+    };
     const source = intent.slots.Source.value;
     const lang = intent.slots.Language.value;
     const langCode = langCodes[lang];
