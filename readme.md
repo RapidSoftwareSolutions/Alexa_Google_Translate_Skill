@@ -1,14 +1,22 @@
-#Hack - Amazon Alexa
-We just put our hands on the Amazon Echo - a new Alexa powered voice assistant device from Amazon. Let's see what we can do with it.
+#Amazon Alexa API Project: Build Google Translate Skill
 
-The Amazon Alexa platform is based on **skills**. Skills are the equivilent of apps in the voice powered platform. We will create a quick example of a skill letting users translate words using the Google Translate API.
+We just got our hands on the Amazon Echo - a new Alexa-powered voice assistant device from Amazon. Let's see what we can do with it.
 
-We will go through adding the skill to Amazon Alexa & creating it's backend in AWS Lambda. We will also connect it to the Google Translate API using RapidAPI.
+The Amazon Alexa platform is based on **skills**. Skills are the equivilent of apps for this voice-powered platform. While there are countless skills we could potentially build for Alexa, today we'll focus on letting users translate words using the Google Translate API.
 
-To follow along you'll need an Amazon Echo device and an Amazon account.
+##This article will go through...
 
-##Let the hacking begin
-I'll be following Amazon's document [Steps to Build a Custom Skill](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/overviews/steps-to-build-a-custom-skill).
+1. Adding the translation skill to Amazon Alexa
+2. Creating the skill's backend in AWS Lambda
+3. Connecting Alexa to the Google Translate API using RapidAPI
+
+##What you'll need: 
+
+* Amazon Echo device
+* Amazon account
+
+##Let the hacking begin!
+We'll be following Amazon's document [Steps to Build a Custom Skill](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/overviews/steps-to-build-a-custom-skill).
 
 Our new *Skill* will be a voice powered tool for translating text. For example you'll be able to say *Alexa translate butterfly to German* and the response will be *The word for butterfly in German is Schmetterling*.
 
