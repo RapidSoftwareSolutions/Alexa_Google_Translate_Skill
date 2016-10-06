@@ -4,29 +4,34 @@ We just got our hands on the Amazon Echo - a new Alexa-powered voice assistant d
 
 The Amazon Alexa platform is based on **skills**. Skills are the equivilent of apps for this voice-powered platform. While there are countless skills we could potentially build for Alexa, today we'll focus on letting users translate words using the Google Translate API.
 
-##This article will go through...
+###This article will go through...
 
 1. Adding the translation skill to Amazon Alexa
 2. Creating the skill's backend in AWS Lambda
 3. Connecting Alexa to the Google Translate API using RapidAPI
 
-##What you'll need: 
+###What you'll need: 
 
 * Amazon Echo device
 * Amazon account
 
-##Let the hacking begin!
-We'll be following Amazon's document [Steps to Build a Custom Skill](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/overviews/steps-to-build-a-custom-skill).
+On that note, let the hacking begin!
 
-Our new *Skill* will be a voice powered tool for translating text. For example you'll be able to say *Alexa translate butterfly to German* and the response will be *The word for butterfly in German is Schmetterling*.
+##Step 1: Define the Skill's Elements
+FYI, we'll be following Amazon's document [Steps to Build a Custom Skill](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/overviews/steps-to-build-a-custom-skill).
 
-To get started, we'll head over to the [Amazon Developer Portal](https://developer.amazon.com) and login. Note that the account you use here should be the same account your device is configured with. That way, any skills you build will sync to it automatically.
 
-Once logged in, head over to the Alexa tab and create a new Alexa skill. Call it `Translate` and set it's language to English.
+###1a: Create the skill
+Our new *Skill* will be a voice-powered tool for translating text. This skill means that the user will be able to ask Alexa to translate words or phrases from over 90 languages. For example, the user might say, *Alexa translate "butterfly" to German* and Alexa will respond by saying, *The word for "butterfly" in German is Schmetterling*. Pretty cool, right?
+
+To get started, we'll head over to the [Amazon Developer Portal](https://developer.amazon.com) and login. Pro tip: the account you use to log in here should be the same account your device is configured with. That way, any skills that you build will sync to your Echo automatically.
+
+Once logged in, head over to the Alexa tab and create a new Alexa skill. Call it `Translate` and set its language to English.
 
 ![](http://i.giphy.com/l0MYM5s8CFnxyCBGM.gif)
 
-The next step will be to define the intent schema. Every skill in the Alexa platform is made out of intents. An intent is basically an action that the user can perform with the skill. Our skill will have one intent - `Translate`. Thus, the defenition will look like that:
+###1b. Define the intent
+The next step will be to define the **intent** schema. Every skill in the Alexa platform is made of intents. An intent is basically an action that the user can perform with the skill. Our skill will have one intent - `Translate`. Thus, our definition will look like this:
 
 ```
 {
@@ -47,16 +52,18 @@ The next step will be to define the intent schema. Every skill in the Alexa plat
 	]
 }
 ```
-As you can see, the intent has 2 **slots**. A slot is like a place holder for a piece of data the user can supply to the intent. The slots in our case will be:
+###1c. Define the slots and slot types
+As you can see, the intent has 2 **slots**. A slot is like a placeholder for a piece of data that the user can supply to the intent. The slots in our case will be:
 
 - Source: the original word to be translated.
 - Language: the language we want to translate it to.
 
-Each of them has a **slot type** (SOURCE and LANGUAGES_LIST, respecively). These types define what information can go into the slot. The definition is done by providing examples of words that can go in the slot. For us, they will look like that:
+Each of the slots has a **slot type** (SOURCE and LANGUAGES_LIST, respecively). These slot types define what information can go into the slot. You define slot types by providing examples of words that can go in the slot. For us, the slot types will look like this:
 
 ![](screenshots/custom_slots.png)
 
-The last part of the definition is the **Utterrances**. These are examples of things people can say to invoke this intent. This is the data Alexa uses to recognize commands. Ours will be pretty basic:
+###1d. Define the utterances
+The last part of the definition is the **utterrances**. An utterance is a example phrase that the user can say to invoke this specific intent. In other words, utterances are the data Alexa uses to recognize commands. Our utterances will be pretty basic:
 
 ```
 Translate translate {Source} to {Language}
@@ -66,11 +73,11 @@ Translate get translation for {Source} in {Language}
 Translate what is {Source} in {Language}
 ```
 
-Having the Intent, it's slots types and it's utterrances set we can move to configuring our amazon skill. The next step would be to connect our new skill to a 'backend' that will actually perform the translation.
+Now that we have the intent, its slots types and its utterrances set, we can move to configuring our amazon skill. The next step is to connect our new skill to a 'backend' that will actually perform the translation.
 
-##Connecting to Amazon Lambda
+##Step 2: Connect to Amazon Lambda
 
-AWS Lambda is a service that let's you write code that runs whenever an event happens (for example an HTTP request or an AWS Alexa command). We will use Lambda in this tutorial as we will not have to worry about setting up servers, load balancers and so on.
+AWS Lambda is a service that let's you write code that runs whenever an event (ex. an HTTP request or an AWS Alexa command) occurs. We will use Lambda in this tutorial so that we will not have to worry about setting up servers, load balancer etc.
 
 Head over to [AWS](aws.amazon.com) and sign in to your console. In the console, head over to the Lambda service and create a new lambda function named `ALEXA-TRANSLATE-SKILL`. We will not use a blue print and will set the code to be uploaded in a zip file.
 
